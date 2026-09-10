@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เว็บขอจีบ - เวอร์ชัน 3 ปุ่ม</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #fdedf3;
+    --card: #fffbf8;
+    --accent: #e8779d;
+    --accent-soft: #f7b8cf;
+    --text: #6b4650;
+  }
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--bg);
+    font-family:'Mali', sans-serif;
+    color:var(--text);
+    overflow:hidden;
+  }
+
+  .card{
+    width:min(90vw, 380px);
+    min-height:520px;
+    background:var(--card);
+    border-radius:28px;
+    box-shadow:0 20px 40px rgba(232,119,157,.25);
+    padding:32px 24px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+  }
+
+  .dots{
+    position:absolute;
+    top:20px; left:0; right:0;
+    display:flex;
+    gap:6px;
+    justify-content:center;
+  }
+  .dots span{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:#f0d3dd;
+    transition:background .3s;
+  }
+  .dots span.active{ background:var(--accent); }
+
+  .slide{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+    animation:fadeIn .5s ease;
+  }
+  .slide.active{ display:flex; }
+
+  @keyframes fadeIn{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  /* เขย่าเบาๆ ตอนโดนปฏิเสธ ให้ฟีลน่ารักกวนๆ */
+  @keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    20%{ transform:translateX(-6px); }
+    40%{ transform:translateX(6px); }
+    60%{ transform:translateX(-4px); }
+    80%{ transform:translateX(4px); }
+  }
+  .shake{ animation:shake .4s ease; }
+
+  .bunny{ font-size:64px; line-height:1; transition:transform .2s; }
+
+  .slide h1{ font-size:22px; margin:0; }
+  .slide p{ font-size:15px; line-height:1.6; margin:0; color:#8a6a75; }
+
+  .btn{
+    font-family:inherit;
+    font-size:16px;
+    font-weight:700;
+    border:none;
+    border-radius:999px;
+    padding:12px 26px;
+    background:var(--accent);
+    color:#fff;
+    cursor:pointer;
+    transition:transform .15s;
+  }
+  .btn:hover{ transform:scale(1.05); }
+  .btn.ghost{
+    background:transparent;
+    border:2px solid var(--accent-soft);
+    color:var(--accent);
+  }
+
+  /* แถวปุ่ม 3 ปุ่มบนหน้าคำถามหลัก เรียงเป็นคอลัมน์ให้กดง่ายบนมือถือ */
+  .choice-col{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    width:100%;
+    max-width:220px;
+  }
+
+  .finale{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .heart{
+    position:absolute;
+    bottom:-40px;
+    font-size:22px;
+    animation:float 4.5s linear forwards;
+    opacity:.9;
+  }
+  @keyframes float{
+    to{ transform:translateY(-110vh) rotate(20deg); opacity:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+
+  <div class="dots" id="dots"></div>
+
+  <!-- สไลด์ 0: Loading -->
+  <section class="slide active" data-index="0">
+    <div class="bunny">🐰</div>
+    <h1>กำลังโหลด...</h1>
+    <p>กำลังเตรียมอะไรบางอย่างให้เธออยู่ รอสักครู่น้าาาาาา</p>
+  </section>
+
+  <!-- สไลด์ 1-3: ข้อความปูเรื่อง -->
+  <section class="slide" data-index="1">
+    <div class="bunny">💌</div>
+    <h1>มีเรื่องสำคัญอยากบอกเทออ่ะ</h1>
+    <button class="btn next-btn">ต่อไป</button>
+  </section>
+
+  <section class="slide" data-index="2">
+    <div class="bunny">🌸</div>
+    <h1>คิดอยู่นานมากกว่าจะกล้าพิมพ์หน้านี้</h1>
+    <button class="btn next-btn">ต่อไป</button>
+  </section>
+
+  <section class="slide" data-index="3">
+    <div class="bunny">✨</div>
+    <h1>แต่สุดท้ายก็อยากลองถามดูสักตั้ง</h1>
+    <button class="btn next-btn">ต่อไป</button>
+  </section>
+
+  <!-- สไลด์ 4: หน้าคำถามหลัก มี 3 ปุ่ม เนื้อหาส่วนนี้ถูกสลับด้วย JS เวลากด "ไม่ให้จีบ" -->
+  <section class="slide" data-index="4">
+    <div class="bunny" id="mainBunny">🙈</div>
+    <h1 id="mainQuestion">ขอจีบได้ไหม? น้าาาคนสวย</h1>
+    <p id="mainSub">อยากดูแล ชอบมานานแล้ว และเราได้คุยตัังแต่ 17/09/69 ตลอดเวลามานี้ ได้คิดแล้วว่า ชอบจริง มากกว่าเดิมด้วย คลั่งรักเลยทีเดี่ยว</p>
+    <div class="choice-col" id="choiceCol">
+      <button class="btn" id="allowBtn">ให้จีบงับ</button>
+      <button class="btn" id="directBtn">เป็นแฟนเลย</button>
+      <button class="btn ghost" id="denyBtn">ไม่ให้จีบ [ห้ามกดอันนี้]</button>
+    </div>
+  </section>
+
+  <!-- สไลด์ 5: กด "ให้จีบ" -->
+  <section class="slide" data-index="5">
+    <div class="bunny">😳💕</div>
+    <h1 style="color:var(--accent); font-size:24px;">เย้! ได้จีบแล้วนะ</h1>
+    <p>ขอบคุณที่ให้โอกาสนะ จะพยายามให้มากขึ้น จนกว่าเกาซัรจะยอมคบเลย ไม่ว่าจะนานแค่ไหนก็จะรอ จะพยายาม</p>
+  </section>
+
+  <!-- สไลด์ 6: กด "เป็นแฟนเลย" -->
+  <section class="slide" data-index="6">
+    <div class="bunny">🥰</div>
+    <h1 style="color:var(--accent); font-size:24px;">เย้! เราเป็นแฟนกันแล้วนะ</h1>
+    <p>ขอบคุณที่กดเลือกเราตั้งแต่วันนี้ไป จะดูแลให้ดีเลย ไม่ให้น้อยใจไม่ให้เสียใจเลย จะรักให้มากขึ้นทุกๆ วัน รักนะเทออออออออออ</p>
+  </section>
+
+</div>
+
+<div class="finale" id="finale"></div>
+
+<script>
+/* ---------- เปลี่ยนสไลด์แบบเรียงลำดับ (ใช้กับ Loading / ข้อความปูเรื่อง) ---------- */
+const slides = document.querySelectorAll('.slide');
+const dotsWrap = document.getElementById('dots');
+let current = 0;
+
+slides.forEach((_, i) => {
+  const dot = document.createElement('span');
+  if (i === 0) dot.classList.add('active');
+  dotsWrap.appendChild(dot);
+});
+const dots = dotsWrap.querySelectorAll('span');
+
+function goTo(index){
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = index;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+
+document.querySelectorAll('.next-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> goTo(current + 1));
+});
+
+/* หน้า Loading (สไลด์ 0) ไม่มีปุ่ม เลยต้องสั่งให้ไปหน้าถัดไปเองหลังรอสักพัก
+   ไม่งั้นจะค้างอยู่หน้านี้ตลอด เปลี่ยนเลข 1800 (มิลลิวินาที) ได้ตามชอบ */
+setTimeout(()=> goTo(1), 1800);
+
+/* ---------- หน้าคำถามหลัก: ตรรกะ 3 ปุ่ม ---------- */
+const mainBunny   = document.getElementById('mainBunny');
+const mainQuestion= document.getElementById('mainQuestion');
+const mainSub     = document.getElementById('mainSub');
+const card        = document.getElementById('card');
+
+// ข้อความง้อ ที่จะขึ้นสลับกันไปทุกครั้งที่กด "ไม่ให้จีบ" ยิ่งกดยิ่งน่ารักขึ้น
+// แก้ข้อความในนี้ให้เป็นสไตล์ที่อยากบอกเพื่อนได้เลย
+const pleas = [
+  { emoji:'🥺', q:'ไม่ให้จีบจริงหรอ', s:'ขอน้าาา ให้จีบเถอะนะ' },
+  { emoji:'😭', q:'เทออ้าาาา ขอได้ไหม?', s:'ให้โอกาสน้าาาา จะพยายามปรับให้' },
+  { emoji:'🫶', q:'ให้โอกาสสักครั้งได้ไหม?', s:'สัญญาว่าจะไม่ทำให้ผิดหวัง' },
+  { emoji:'🐰💦', q:'ขอร้องงงง', s:'แค่ลองดูก่อนก็ได้นะ ไม่ต้องรีบตัดสินใจ' }
+];
+let pleaIndex = 0;
+
+const denyBtn = document.getElementById('denyBtn');
+denyBtn.addEventListener('click', ()=>{
+  // สลับรูป/ข้อความไปเรื่อยๆ ตามลำดับ pleas วนซ้ำเมื่อครบ
+  const p = pleas[pleaIndex % pleas.length];
+  mainBunny.textContent    = p.emoji;
+  mainQuestion.textContent = p.q;
+  mainSub.textContent      = p.s;
+  pleaIndex++;
+
+  // เอฟเฟกต์เขย่าการ์ดเบาๆ ให้รู้สึกว่ามีอะไรเปลี่ยน
+  card.classList.remove('shake');
+  void card.offsetWidth; // trick รีเซ็ต animation ให้เล่นซ้ำได้
+  card.classList.add('shake');
+});
+
+document.getElementById('allowBtn').addEventListener('click', ()=>{
+  goTo(5);
+});
+
+document.getElementById('directBtn').addEventListener('click', ()=>{
+  goTo(6);
+  launchHearts();
+});
+
+function launchHearts(){
+  const finale = document.getElementById('finale');
+  const emojis = ['💕','💗','💖','🌸'];
+  const timer = setInterval(()=>{
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.animationDuration = (3.5 + Math.random()*2) + 's';
+    finale.appendChild(h);
+    setTimeout(()=>h.remove(), 5000);
+  }, 250);
+  setTimeout(()=>clearInterval(timer), 6000);
+}
+</script>
+
+</body>
+</html>
