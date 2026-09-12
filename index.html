@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>กดหน่อยจิห มีเซอร์ไพรส์งับ</title>
+<title>กดสิจ้ะ มีเซอร์ไพรส์</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
@@ -145,13 +145,13 @@
   <section class="slide active" data-index="0">
     <div class="bunny">🐰</div>
     <h1>กำลังโหลด...</h1>
-    <p>กำลังเตรียมอะไรบางอย่างให้เธออยู่ รอสักครู่น้าาาาาา</p>
+    <p>กำลังเตรียมอะไรบางอย่างให้เธออยู่ รอสักครู่นะ</p>
   </section>
 
   <!-- สไลด์ 1-3: ข้อความปูเรื่อง -->
   <section class="slide" data-index="1">
     <div class="bunny">💌</div>
-    <h1>มีเรื่องสำคัญอยากบอกเทออ่ะ</h1>
+    <h1>มีเรื่องสำคัญอยากบอก</h1>
     <button class="btn next-btn">ต่อไป</button>
   </section>
 
@@ -170,12 +170,12 @@
   <!-- สไลด์ 4: หน้าคำถามหลัก มี 3 ปุ่ม เนื้อหาส่วนนี้ถูกสลับด้วย JS เวลากด "ไม่ให้จีบ" -->
   <section class="slide" data-index="4">
     <div class="bunny" id="mainBunny">🙈</div>
-    <h1 id="mainQuestion">ขอจีบได้ไหม? น้าาาคนสวย</h1>
-    <p id="mainSub">อยากดูแล ชอบมานานแล้ว และเราได้คุยตัังแต่ 17/09/69 ตลอดเวลามานี้ ได้คิดแล้วว่า ชอบจริง มากกว่าเดิมด้วย คลั่งรักเลยทีเดี่ยว</p>
+    <h1 id="mainQuestion">ขอจีบได้ไหม?</h1>
+    <p id="mainSub">แค่อยากลองดูแลกันดูก่อนก็ยังดีนะ</p>
     <div class="choice-col" id="choiceCol">
-      <button class="btn" id="allowBtn">ให้จีบงับ</button>
+      <button class="btn" id="allowBtn">ให้จีบ</button>
       <button class="btn" id="directBtn">เป็นแฟนเลย</button>
-      <button class="btn ghost" id="denyBtn">ไม่ให้จีบ [ห้ามกดอันนี้]</button>
+      <button class="btn ghost" id="denyBtn">ไม่ให้จีบ</button>
     </div>
   </section>
 
@@ -183,14 +183,14 @@
   <section class="slide" data-index="5">
     <div class="bunny">😳💕</div>
     <h1 style="color:var(--accent); font-size:24px;">เย้! ได้จีบแล้วนะ</h1>
-    <p>ขอบคุณที่ให้โอกาสนะ จะพยายามให้มากขึ้น จนกว่าเกาซัรจะยอมคบเลย ไม่ว่าจะนานแค่ไหนก็จะรอ จะพยายาม</p>
+    <p>ขอบคุณที่ให้โอกาสนะ จะดูแลและทำให้ดีที่สุดเลย</p>
   </section>
 
   <!-- สไลด์ 6: กด "เป็นแฟนเลย" -->
   <section class="slide" data-index="6">
     <div class="bunny">🥰</div>
     <h1 style="color:var(--accent); font-size:24px;">เย้! เราเป็นแฟนกันแล้วนะ</h1>
-    <p>ขอบคุณที่กดเลือกเราตั้งแต่วันนี้ไป จะดูแลให้ดีเลย ไม่ให้น้อยใจไม่ให้เสียใจเลย จะรักให้มากขึ้นทุกๆ วัน รักนะเทออออออออออ</p>
+    <p>ขอบคุณที่กดเลือกเราตั้งแต่วันนี้ไป ให้ทุกวันของเราเต็มไปด้วยรอยยิ้ม</p>
   </section>
 
 </div>
@@ -235,8 +235,8 @@ const card        = document.getElementById('card');
 // ข้อความง้อ ที่จะขึ้นสลับกันไปทุกครั้งที่กด "ไม่ให้จีบ" ยิ่งกดยิ่งน่ารักขึ้น
 // แก้ข้อความในนี้ให้เป็นสไตล์ที่อยากบอกเพื่อนได้เลย
 const pleas = [
-  { emoji:'🥺', q:'ไม่ให้จีบจริงหรอ', s:'ขอน้าาา ให้จีบเถอะนะ' },
-  { emoji:'😭', q:'เทออ้าาาา ขอได้ไหม?', s:'ให้โอกาสน้าาาา จะพยายามปรับให้' },
+  { emoji:'🥺', q:'ไม่ให้จีบจริงหรอ?', s:'ขอน้าาา ให้จีบเถอะนะ' },
+  { emoji:'😭', q:'ทำไมงั้นน มีอะไรกังวลอยู่หรือเปล่า?', s:'บอกได้นะ จะพยายามปรับให้' },
   { emoji:'🫶', q:'ให้โอกาสสักครั้งได้ไหม?', s:'สัญญาว่าจะไม่ทำให้ผิดหวัง' },
   { emoji:'🐰💦', q:'ขอร้องงงง', s:'แค่ลองดูก่อนก็ได้นะ ไม่ต้องรีบตัดสินใจ' }
 ];
@@ -257,13 +257,32 @@ denyBtn.addEventListener('click', ()=>{
   card.classList.add('shake');
 });
 
+/* ---------- แจ้งเตือนเข้ามือถือผ่าน ntfy.sh เวลามีคนกดปุ่ม ----------
+   1) โหลดแอป ntfy บนมือถือตัวเอง แล้ว subscribe topic ชื่อที่ตั้งไว้
+   2) เปลี่ยน YOUR-TOPIC-NAME ด้านล่างเป็นชื่อ topic ที่ตั้งจริง (ตั้งให้ซับซ้อน คนอื่นเดาไม่ได้)
+   ไม่ต้องมี API key เพราะ ntfy.sh เป็นบริการฟรีแบบ topic สาธารณะ */
+const NTFY_TOPIC = "lovetome";
+
+function notifyMe(message){
+  fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+    method: 'POST',
+    body: message
+  }).catch(()=>{}); // เงียบไว้เฉยๆถ้าส่งไม่สำเร็จ ไม่ให้กระทบผู้ใช้ที่กดปุ่ม
+}
+
 document.getElementById('allowBtn').addEventListener('click', ()=>{
+  notifyMe('มีคนกด "ให้จีบ" ในเว็บ! 🐰💌');
   goTo(5);
 });
 
 document.getElementById('directBtn').addEventListener('click', ()=>{
+  notifyMe('มีคนกด "เป็นแฟนเลย" ในเว็บ! 🥰🎉');
   goTo(6);
   launchHearts();
+});
+
+denyBtn.addEventListener('click', ()=>{
+  notifyMe('มีคนกด "ไม่ให้จีบ" ในเว็บ 😢');
 });
 
 function launchHearts(){
